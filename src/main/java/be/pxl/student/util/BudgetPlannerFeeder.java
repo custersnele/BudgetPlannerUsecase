@@ -17,20 +17,21 @@ import java.util.concurrent.TimeUnit;
  * This class will generate some random data
  */
 public class BudgetPlannerFeeder {
+	private static final Random RANDOM = new Random();
 
-	Faker faker = new Faker();
+	private Faker faker = new Faker();
 
-	String myAccountName = "Jos";
-	String myIBANNumber = "BE69771770897312";
+	private String myAccountName = "Jos";
+	private String myIBANNumber = "BE69771770897312";
 
 	public static void main(String[] args) throws IOException {
 		BudgetPlannerFeeder feeder = new BudgetPlannerFeeder();
-		String[] dataLines = feeder.generateLines(100);
+		List<String> dataLines = feeder.generateLines(100);
 		feeder.printLines(dataLines);
 		feeder.saveFile("src/main/resources/account_payments.csv", dataLines);
 	}
 
-	private void saveFile(String csvFile, String[] dataLines) throws IOException {
+	private void saveFile(String csvFile, List<String> dataLines) throws IOException {
 		try(BufferedWriter writer = Files.newBufferedWriter(Paths.get(csvFile), StandardOpenOption.WRITE)) {
 			for (String dataLine : dataLines) {
 				writer.write(dataLine);
@@ -39,29 +40,35 @@ public class BudgetPlannerFeeder {
 		}
 	}
 
-	private void printLines(String[] dataLines) {
+	private void printLines(List<String> dataLines) {
 		for (String line: dataLines) {
 			System.out.println(line);
 		}
 	}
 
-	private String[] generateLines(int total) {
+	private List<String> generateLines(int total) {
 		List<String> data = new ArrayList<>();
 		addHeaderLine(data);
 		for (int i = 0; i < total; i++) {
-			StringBuffer buffer = new StringBuffer();
-			buffer.append(myAccountName).append(","); // Account name
-			buffer.append(myIBANNumber).append(","); // Account IBAN
-			buffer.append(faker.finance().iban("BE")).append(","); // Account IBAN
-			buffer.append(faker.date()
-					.past(new Random().nextInt(30) + 1, TimeUnit.DAYS))
-					.append(","); // Transaction date between now and 30 days ago
-			buffer.append(faker.number().randomDouble(2, -5000, 5000)).append(","); // Amount
-			buffer.append("EUR").append(","); // Currency
-			buffer.append(faker.lorem().sentence()); // Detail
-			data.add(buffer.toString());
+			int numbOfPayments = RANDOM.nextInt(10) + 1;
+
+			String accountName = faker.name().firstName();
+			String ibanNumber = faker.finance().iban("BE");
+			for (int j = 0; j < numbOfPayments; j++) {
+				StringBuilder buffer = new StringBuilder();
+				buffer.append(accountName).append(","); // Account name
+				buffer.append(ibanNumber).append(","); // Account IBAN
+				buffer.append(faker.finance().iban("BE")).append(","); // Account IBAN
+				buffer.append(faker.date()
+						.past(RANDOM.nextInt(30) + 1, TimeUnit.DAYS))
+						.append(","); // Transaction date between now and 30 days ago
+				buffer.append(faker.number().randomDouble(2, -5000, 5000)).append(","); // Amount
+				buffer.append("EUR").append(","); // Currency
+				buffer.append(faker.lorem().sentence());
+				data.add(buffer.toString());
+			}
 		}
-		return data.toArray(new String[0]);
+		return data;
 	}
 
 	private void addHeaderLine(List<String> data) {
