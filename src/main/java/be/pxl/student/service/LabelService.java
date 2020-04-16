@@ -3,7 +3,7 @@ package be.pxl.student.service;
 import be.pxl.student.dao.LabelDao;
 import be.pxl.student.dao.impl.LabelDaoImpl;
 import be.pxl.student.entity.Label;
-import be.pxl.student.util.DuplicateLabelException;
+import be.pxl.student.util.exception.DuplicateLabelException;
 import be.pxl.student.util.EntityManagerUtil;
 
 import javax.ejb.Stateless;
@@ -35,6 +35,5 @@ public class LabelService {
 		if (labelById != null) {
 			labelDao.removeLabel(labelById);
 		}
-
 	}
 }

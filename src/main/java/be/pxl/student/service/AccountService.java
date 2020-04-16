@@ -1,6 +1,6 @@
 package be.pxl.student.service;
 
-import be.pxl.student.AccountNotFoundException;
+import be.pxl.student.util.exception.AccountNotFoundException;
 import be.pxl.student.dao.AccountDao;
 import be.pxl.student.dao.impl.AccountDaoImpl;
 import be.pxl.student.entity.Account;

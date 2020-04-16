@@ -1,6 +1,7 @@
 package be.pxl.student.util;
 
 import be.pxl.student.entity.Account;
+import be.pxl.student.util.exception.InvalidPaymentException;
 
 public class AccountMapper {
 

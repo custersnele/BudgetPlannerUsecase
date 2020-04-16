@@ -16,6 +16,8 @@ public class Payment {
     private Account account;
     @ManyToOne
     private Account counterAccount;
+    @ManyToOne
+    private Label label;
     private LocalDateTime date;
     private float amount;
     private String currency;
@@ -36,6 +38,14 @@ public class Payment {
         this(date, amount, currency, detail);
         this.account = account;
         this.counterAccount = counterAccount;
+    }
+
+    public Label getLabel() {
+        return label;
+    }
+
+    public void setLabel(Label label) {
+        this.label = label;
     }
 
     public LocalDateTime getDate() {
@@ -88,6 +98,10 @@ public class Payment {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean hasLabel(Label label) {
+        return label.equals(this.label);
     }
 
     @Override

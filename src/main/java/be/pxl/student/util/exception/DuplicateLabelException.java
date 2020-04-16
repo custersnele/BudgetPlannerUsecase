@@ -1,4 +1,4 @@
-package be.pxl.student.util;
+package be.pxl.student.util.exception;
 
 public class DuplicateLabelException extends Exception {
 

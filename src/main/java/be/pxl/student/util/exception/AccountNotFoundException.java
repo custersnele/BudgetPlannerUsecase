@@ -1,4 +1,4 @@
-package be.pxl.student;
+package be.pxl.student.util.exception;
 
 public class AccountNotFoundException  extends Exception {
 

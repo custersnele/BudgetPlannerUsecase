@@ -21,7 +21,7 @@ public class Label {
 	private String name;
 
 	public Label() {
-		// JPA onlye
+		// JPA only
 	}
 
 	public Label(String name) {
@@ -38,5 +38,24 @@ public class Label {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		Label label = (Label) o;
+
+		return getName() != null ? getName().equals(label.getName()) : label.getName() == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return getName() != null ? getName().hashCode() : 0;
 	}
 }

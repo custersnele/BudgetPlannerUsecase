@@ -1,7 +1,6 @@
 package be.pxl.student.dao.impl;
 
 import be.pxl.student.dao.LabelDao;
-import be.pxl.student.entity.Account;
 import be.pxl.student.entity.Label;
 
 import javax.persistence.EntityManager;

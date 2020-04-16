@@ -1,6 +1,7 @@
 package be.pxl.student.util;
 
 import be.pxl.student.entity.Payment;
+import be.pxl.student.util.exception.InvalidPaymentException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

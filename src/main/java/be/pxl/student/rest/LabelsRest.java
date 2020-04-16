@@ -3,7 +3,7 @@ package be.pxl.student.rest;
 import be.pxl.student.entity.Label;
 import be.pxl.student.rest.resources.LabelCreateResource;
 import be.pxl.student.service.LabelService;
-import be.pxl.student.util.DuplicateLabelException;
+import be.pxl.student.util.exception.DuplicateLabelException;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
