@@ -1,9 +1,12 @@
 package be.pxl.student.rest;
 
 import be.pxl.student.entity.Label;
+import be.pxl.student.rest.resources.ErrorMessage;
 import be.pxl.student.rest.resources.LabelCreateResource;
 import be.pxl.student.service.LabelService;
 import be.pxl.student.util.exception.DuplicateLabelException;
+import be.pxl.student.util.exception.LabelInUseException;
+import be.pxl.student.util.exception.LabelNotFoundException;
 
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
@@ -44,7 +47,11 @@ public class LabelsRest {
 	@DELETE
 	@Path("{id}")
 	public Response removeLabel(@PathParam("id") long labelId) {
-		labelService.removeLabel(labelId);
+		try {
+			labelService.removeLabel(labelId);
+		} catch (LabelNotFoundException | LabelInUseException e) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(new ErrorMessage(e)).build();
+		}
 		return Response.status(Response.Status.ACCEPTED).build();
 	}
 }

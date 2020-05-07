@@ -28,6 +28,10 @@ public class Label {
 		setName(name);
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -58,4 +62,6 @@ public class Label {
 	public int hashCode() {
 		return getName() != null ? getName().hashCode() : 0;
 	}
+
+
 }

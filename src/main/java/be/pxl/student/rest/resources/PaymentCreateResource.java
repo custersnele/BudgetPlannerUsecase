@@ -1,8 +1,14 @@
 package be.pxl.student.rest.resources;
 
+import org.apache.johnzon.mapper.JohnzonConverter;
+
+import java.time.LocalDate;
+
 public class PaymentCreateResource {
 	private String counterAccount;
 	private float amount;
+	@JohnzonConverter(LocalDateConverter.class) //https://johnzon.apache.org/
+	private LocalDate date;
 	private String detail;
 
 	public String getCounterAccount() {
@@ -27,5 +33,14 @@ public class PaymentCreateResource {
 
 	public void setDetail(String detail) {
 		this.detail = detail;
+	}
+
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 }

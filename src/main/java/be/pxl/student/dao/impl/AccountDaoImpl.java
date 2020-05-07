@@ -9,8 +9,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class AccountDaoImpl implements AccountDao {
+
 	private static final Logger LOGGER = LogManager.getLogger(AccountDaoImpl.class);
 
 	private EntityManager entityManager;
@@ -41,6 +43,11 @@ public class AccountDaoImpl implements AccountDao {
 		}
 	}
 
+	@Override
+	public Account findAccountById(long id) {
+		return entityManager.find(Account.class, id);
+	}
+
 	public Account updateAccount(Account account) {
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
@@ -55,5 +62,19 @@ public class AccountDaoImpl implements AccountDao {
 		entityManager.persist(account);
 		transaction.commit();
 		return account;
+	}
+
+	@Override
+	public List<Account> findAllAccounts() {
+		TypedQuery<Account> query = entityManager.createNamedQuery("findAllAccounts", Account.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public void removeAccount(Account account) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		entityManager.remove(account);
+		transaction.commit();
 	}
 }

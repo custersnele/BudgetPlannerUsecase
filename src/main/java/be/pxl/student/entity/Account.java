@@ -8,12 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NamedQueries(
 		{ @NamedQuery(name = "findByName", query = "SELECT a FROM Account a WHERE a.name = :name"),
-				@NamedQuery(name = "findByIban", query = "SELECT a FROM Account a WHERE a.IBAN = :iban") }
+				@NamedQuery(name = "findByIban", query = "SELECT a FROM Account a WHERE a.IBAN = :iban"),
+				@NamedQuery(name = "findAllAccounts", query = "SELECT a FROM Account a") }
 )
 public class Account {
 
@@ -23,7 +25,7 @@ public class Account {
 	private String IBAN;
 	private String name;
 	@OneToMany(mappedBy = "account", cascade = CascadeType.MERGE)
-	private List<Payment> payments;
+	private List<Payment> payments = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -61,5 +63,9 @@ public class Account {
 	public void addPayment(Payment payment) {
 		payment.setAccount(this);
 		payments.add(payment);
+	}
+
+	public void removePayment(Payment payment) {
+		payments.remove(payment);
 	}
 }

@@ -105,6 +105,25 @@ public class Payment {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Payment payment = (Payment) o;
+
+        return getId().equals(payment.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
+
+    @Override
     public String toString() {
         return "Payment{" +
                 "id=" + id +
@@ -115,5 +134,9 @@ public class Payment {
                 ", currency='" + currency + '\'' +
                 ", detail='" + detail + '\'' +
                 '}';
+    }
+
+    public void delete() {
+        account.removePayment(this);
     }
 }

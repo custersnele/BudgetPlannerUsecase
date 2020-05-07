@@ -1,9 +1,7 @@
 package be.pxl.student.service;
 
-import be.pxl.student.dao.AccountDao;
 import be.pxl.student.dao.LabelDao;
 import be.pxl.student.dao.PaymentDao;
-import be.pxl.student.dao.impl.AccountDaoImpl;
 import be.pxl.student.dao.impl.LabelDaoImpl;
 import be.pxl.student.dao.impl.PaymentDaoImpl;
 import be.pxl.student.entity.Label;
@@ -13,7 +11,7 @@ import be.pxl.student.util.exception.LabelNotFoundException;
 import be.pxl.student.util.exception.PaymentNotFoundException;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 @Stateless
 public class PaymentService {
@@ -21,8 +19,9 @@ public class PaymentService {
 	private LabelDao labelDao;
 
 	public PaymentService() {
-		paymentDao = new PaymentDaoImpl(EntityManagerUtil.createEntityManager());
-		labelDao = new LabelDaoImpl(EntityManagerUtil.createEntityManager());
+		EntityManager entityManager = EntityManagerUtil.createEntityManager();
+		paymentDao = new PaymentDaoImpl(entityManager);
+		labelDao = new LabelDaoImpl(entityManager);
 	}
 
 	public void linkPayment(long paymentId, long labelId) throws LabelNotFoundException, PaymentNotFoundException {
@@ -36,5 +35,13 @@ public class PaymentService {
 		}
 		payment.setLabel(label);
 		paymentDao.updatePayment(payment);
+	}
+
+	public void removePayment(long paymentId) {
+		Payment payment = paymentDao.findById(paymentId);
+		if (payment != null) {
+			payment.delete();
+			paymentDao.removePayment(payment);
+		}
 	}
 }

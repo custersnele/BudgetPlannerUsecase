@@ -21,6 +21,7 @@ public class EntityManagerUtil implements ServletContextListener {
 	private static final Logger LOGGER = LogManager.getLogger(EntityManagerUtil.class);
 
 	private static EntityManagerFactory emf;
+	private static EntityManager entityManager;
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -41,6 +42,9 @@ public class EntityManagerUtil implements ServletContextListener {
 				LOGGER.fatal(String.format("Error deregistering driver %s", driver), e);
 			}
 		}
+		if (entityManager != null) {
+			entityManager.close();
+		}
 		if (emf != null) {
 			emf.close();
 			LOGGER.info("*** Persistence finished at " + LocalDateTime.now());
@@ -48,10 +52,13 @@ public class EntityManagerUtil implements ServletContextListener {
 	}
 
 	public static EntityManager createEntityManager() {
-		if (emf != null) {
-			return emf.createEntityManager();
+		if (entityManager == null) {
+			LOGGER.info("Creating entitymanager.");
+			if (emf != null) {
+				entityManager = emf.createEntityManager();
+			}
 		}
-		return null;
+		return entityManager;
 	}
 
 }
